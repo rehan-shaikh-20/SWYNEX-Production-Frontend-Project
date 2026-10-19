@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Explore packaged food products and nutrition information with SWYNEX Food Explorer."
+    >
+
+    <title>SWYNEX Food Explorer</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a class="brand" href="#">
+            <span class="mark">S</span> swynex<span class="light">/food</span>
+        </a>
+
+        <nav>
+            <a href="#explore">Explore</a>
+            <a href="#about">About</a>
+            <a
+                href="https://world.openfoodfacts.org/"
+                target="_blank"
+                rel="noreferrer"
+            >
+                Open Food Facts ↗
+            </a>
+        </nav>
+
+        <button class="saved" id="savedToggle" type="button">
+            ♡ Saved <b id="savedCount">0</b>
+        </button>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">✳ &nbsp; MAKE INFORMED CHOICES</p>
+
+                <h1>
+                    Know what's<br>
+                    <em>in your food.</em>
+                </h1>
+
+                <p class="lead">
+                    Explore packaged products, check ingredients, and get to know
+                    the nutrition information behind everyday choices.
+                </p>
+
+                <a class="primary" href="#explore">
+                    Explore products ↓
+                </a>
+            </div>
+
+            <!-- Hero Illustration -->
+            <div
+                class="hero-art"
+                aria-label="Illustration of grocery products"
+                role="img"
+            >
+                <div class="sun"></div>
+
+                <div class="can">
+                    <b>GOOD<br>FOOD</b>
+                    <i></i>
+                </div>
+
+                <div class="box">
+                    <b>OAT<br>CRUNCH</b>
+                    <i></i>
+                </div>
+
+                <div class="jar">
+                    <b>nut<br>butter</b>
+                </div>
+
+                <span class="spark">✳</span>
+            </div>
+
+            <div class="hero-foot">
+                <span>PRODUCT DISCOVERY, MADE SIMPLE</span>
+                <span>Powered by Open Food Facts ↗</span>
+            </div>
+        </section>
+
+        <!-- Product Explorer -->
+        <section class="explore" id="explore">
+            <div class="heading">
+                <div>
+                    <p class="eyebrow">THE PRODUCT LIBRARY</p>
+
+                    <h2>
+                        Find your next <em>discovery.</em>
+                    </h2>
+
+                    <p class="muted">
+                        Search by product name or enter the digits from a barcode.
+                    </p>
+                </div>
+
+                <span id="summary">Ready when you are</span>
+            </div>
+
+            <!-- Search Panel -->
+            <div class="search-panel">
+                <div class="tabs">
+                    <button
+                        class="tab active"
+                        id="nameTab"
+                        type="button"
+                        aria-selected="true"
+                    >
+                        ⌕ Product name
+                    </button>
+
+                    <button
+                        class="tab"
+                        id="barcodeTab"
+                        type="button"
+                        aria-selected="false"
+                    >
+                        ▦ Barcode
+                    </button>
+                </div>
+
+                <form id="searchForm">
+                    <label
+                        class="sr-only"
+                        id="searchLabel"
+                        for="searchInput"
+                    >
+                        Search food products
+                    </label>
+
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        id="searchInput"
+                        type="search"
+                        minlength="2"
+                        required
+                        placeholder="Try “oat milk”, “chocolate”, or “pasta”…"
+                    >
+
+                    <button
+                        class="primary"
+                        id="searchSubmit"
+                        type="submit"
+                    >
+                        Search →
+                    </button>
+                </form>
+
+                <!-- Quick Searches -->
+                <div class="quick">
+                    Try:
+                    <button data-query="oat milk" type="button">Oat milk</button>
+                    <button data-query="chocolate" type="button">Chocolate</button>
+                    <button data-query="peanut butter" type="button">
+                        Peanut butter
+                    </button>
+                    <button data-query="pasta" type="button">Pasta</button>
+                </div>
+            </div>
+
+            <!-- Filters and Sorting -->
+            <div class="toolbar">
+                <b id="toolbarLabel">Explore products</b>
+
+                <div>
+                    <label class="sr-only" for="categoryFilter">
+                        Category
+                    </label>
+
+                    <select id="categoryFilter">
+                        <option value="all">All categories</option>
+                        <option value="beverages">Beverages</option>
+                        <option value="snacks">Snacks &amp; sweets</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="dairy">Dairy</option>
+                    </select>
+
+                    <label class="sr-only" for="sortSelect">
+                        Sort
+                    </label>
+
+                    <select id="sortSelect">
+                        <option value="relevance">Sort: Relevance</option>
+                        <option value="name">Name: A to Z</option>
+                        <option value="grade">Nutri-Score: A to E</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Status and Welcome Message -->
+            <div id="status" aria-live="polite">
+                <div class="welcome">
+                    <span>✳</span>
+
+                    <h3>Your next food discovery starts here.</h3>
+
+                    <p>
+                        Search above to see product photos, brands, ingredients,
+                        and nutrition information when available.
+                    </p>
+
+                    <button
+                        class="outline"
+                        data-query="chocolate"
+                        type="button"
+                    >
+                        Explore chocolate products →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="grid" class="grid"></div>
+
+            <!-- Load More -->
+            <div class="load-more" id="loadMoreWrap" hidden>
+                <button class="outline" id="loadMore" type="button">
+                    Load more products ↓
+                </button>
+            </div>
+
+            <!-- Data Disclaimer -->
+            <p class="note">
+                Product data and images are provided by Open Food Facts.
+                Information may be incomplete; always check the product packaging.
+            </p>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <span class="about-icon">✳</span>
+
+            <div>
+                <p class="eyebrow">A LITTLE MORE TRANSPARENCY</p>
+
+                <h2>
+                    Better information.<br>
+                    <em>More informed choices.</em>
+                </h2>
+            </div>
+
+            <p>
+                Food Explorer makes public food-product information easier to
+                browse. It is an educational project, not a substitute for
+                product labels or professional dietary advice.
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <a class="brand" href="#">
+            <span class="mark">S</span> swynex<span class="light">/food</span>
+        </a>
+
+        <span>SWYNEX Production Frontend Project</span>
+
+        <a
+            href="https://world.openfoodfacts.org/"
+            target="_blank"
+            rel="noreferrer"
+        >
+            Data by Open Food Facts ↗
+        </a>
+    </footer>
+
+    <!-- Product Details Dialog -->
+    <dialog id="dialog">
+        <button
+            class="close"
+            id="closeDialog"
+            aria-label="Close"
+            type="button"
+        >
+            ×
+        </button>
+
+        <div id="dialogContent"></div>
+    </dialog>
+</body>
+</html>
